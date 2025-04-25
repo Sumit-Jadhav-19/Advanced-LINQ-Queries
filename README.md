@@ -27,25 +27,25 @@ public class Department
 ```
 ## ✅ LINQ Questions with Answers
 
-### Get all employees whose salary is greater than 60,000.
+### 1.Get all employees whose salary is greater than 60,000.
     var res = employees.Where(x => x.Salary > 60000).ToList();
-### Get the names of all female employees, ordered by age descending.
+### 2.Get the names of all female employees, ordered by age descending.
     var res = employees.Where(x => x.Gender == "Female").OrderByDescending(x => x.Age).Select(x => x.Name).ToList();
-### Get the average salary of all employees.
+### 3.Get the average salary of all employees.
     var res = employees.Average(x => x.Salary);
-### Get the employee(s) with the highest salary.
+### 4.Get the employee(s) with the highest salary.
     var res = employees.OrderByDescending(x => x.Salary).FirstOrDefault();
     var maxSalary = employees.Max(x => x.Salary); ###  Another answer
     var res1 = employees.Where(x => x.Salary == maxSalary).ToList();
-### Get the count of employees in each department.
+### 5.Get the count of employees in each department.
     var res = employees.GroupBy(x => x.DepartmentId).Select(g => new
     {
     DepartmentId = g.Key,
     EmployeeCount = g.Count()
     }).ToList();
-### Get all employees who are 30 years old or older, and sort them by name.
+### 6.Get all employees who are 30 years old or older, and sort them by name.
     var res = employees.Where(x => x.Age >= 30).OrderBy(x => x.Name).ToList();
-### Get the total salary paid to employees in the "HR" department.
+### 7.Get the total salary paid to employees in the "HR" department.
     var result = employees.Where(x => x.DepartmentId == departments.Where(d => d.DepartmentName == "HR").Select(d => d.Id).FirstOrDefault()).Sum(x => x.Salary);
     result = employees.Join(departments,
     e => e.DepartmentId,
@@ -53,20 +53,20 @@ public class Department
     (e, d) => new { e.Salary, d.DepartmentName })
     .Where(d => d.DepartmentName == "HR")
     .Sum(x => x.Salary);
-### Get a list of all employee names along with their department names.
+### 8.Get a list of all employee names along with their department names.
     var res = employees.Join(departments, e => e.DepartmentId, d => d.Id,
     (e, d) => new { e.Name, d.DepartmentName })
     .ToList();
-### Get the name(s) of the youngest employee(s).
+### 9.Get the name(s) of the youngest employee(s).
     var res = employees.Where(x => x.Age == employees.Min(a => a.Age)).ToList();
-### Group employees by gender and get the average salary for each gender.
+### 1.Group employees by gender and get the average salary for each gender.
     var res = employees.GroupBy(x => x.Gender).
     Select(x => new
     {
     Gender = x.Key,
     AvgSalary = x.Average(g => g.Salary)
     }).ToList();
-### Find the department that has the most employees.
+### 11.Find the department that has the most employees.
     var res = employees.GroupBy(x => x.DepartmentId)
     .OrderByDescending(g => g.Count())
     .Take(1)
@@ -78,16 +78,16 @@ public class Department
     DepartmentName = d.DepartmentName,
     EmployeeCount = g.Count()
     }).FirstOrDefault();
-### Get the list of employees whose name starts with the letter ‘A’.
+### 12.Get the list of employees whose name starts with the letter ‘A’.
     var res = employees.Where(e => e.Name.StartsWith("A")).ToList();
-### Get the total number of male and female employees.
+### 13.Get the total number of male and female employees.
     var res = employees.GroupBy(e => e.Gender)
     .Select(g => new
     {
     Gender = g.Key,
     EmployeeCount = g.Count()
     }).ToList();
-### Find the second highest salary among all employees.
+### 14.Find the second highest salary among all employees.
     var res = employees.OrderByDescending(e => e.Salary).Skip(1).FirstOrDefault();
     ### 💡 Bonus tip: If you want just the second highest salary value, you could write:
     var secondHighestSalary = employees
@@ -96,16 +96,16 @@ public class Department
     .OrderByDescending(s => s)
     .Skip(1)
     .FirstOrDefault();
-### Get names of employees whose age is between 25 and 30 (inclusive).
+### 15.Get names of employees whose age is between 25 and 30 (inclusive).
     var res = employees.Where(x => x.Age >= 25 && x.Age <= 30).Select(x => x.Name).ToList();
-### Get the names of employees working in the "Finance" department who have a salary greater than 60,000.
+### 16.Get the names of employees working in the "Finance" department who have a salary greater than 60,000.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
     (e, d) => new { e.Name, e.Salary, d.DepartmentName })
     .Where(e => e.DepartmentName == "Finance" && e.Salary > 60000)
     .ToList();
-### Get the highest salary in each department.
+### 17.Get the highest salary in each department.
     var maxSalary = employees.Join(departments, e => e.DepartmentId, d => d.Id,
       (e, d) => new { e.Salary, d.DepartmentName })
       .GroupBy(x => x.DepartmentName)
@@ -114,7 +114,7 @@ public class Department
       DepaermentName = x.Key,
       MaxSalary = x.Max(s => s.Salary)
       }).ToList();
-### List all employees along with their department names, even if they don’t belong to any department.
+### 18.List all employees along with their department names, even if they don’t belong to any department.
     var res = employees.GroupJoin(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -125,17 +125,17 @@ public class Department
     EmployeeName = x.e.Name,
     DepartmentName = d != null ? d.DepartmentName : "No Department"
     }).ToList();
-### Get all employees who joined in the year 2023.
+### 19.Get all employees who joined in the year 2023.
     var res = employees.Where(x => x.JoiningDate.Year == 2023).ToList();
-### Get the number of employees who have not been assigned to any department.
+### 20.Get the number of employees who have not been assigned to any department.
     var res = employees.Where(x => x.DepartmentId == null).Count();
-### List names of employees who are the only ones in their department.
+### 21.List names of employees who are the only ones in their department.
     var res = employees.GroupBy(e => e.DepartmentId)
     .Where(g => g.Count() == 1)
     .SelectMany(g => g)
     .Select(x => x.Name)
     .ToList();
-### Find the average age of employees in each department.
+### 22.Find the average age of employees in each department.
     var res = employees
     .Join(departments, e => e.DepartmentId, d => d.Id,
     (e, d) => new { e.Age, d.DepartmentName })
@@ -146,13 +146,13 @@ public class Department
     AvarageAge = x.Average(g => g.Age)
     })
     .ToList();
-### Get names of employees who have the same salary.
+### 23.Get names of employees who have the same salary.
     var res = employees.GroupBy(x => x.Salary)
     .Where(x => x.Count() > 1)
     .SelectMany(g => g)
     .Select(x => x.Name)
     .ToList();
-### Get the most recently joined employee from each department.
+### 24.Get the most recently joined employee from each department.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -162,7 +162,7 @@ public class Department
     .OrderByDescending(x => x.JoiningDate)
     .FirstOrDefault())
     .ToList();
-### Get a list of departments along with the number of employees in each, including departments with zero
+### 25.Get a list of departments along with the number of employees in each, including departments with zero
     var res = departments.GroupJoin(employees,
        e => e.Id,
        d => d.DepartmentId,
@@ -172,7 +172,7 @@ public class Department
        EmployeeCount = deptGroup.Count()
        })
        .ToList();
-### Get the name(s) of department(s) with no employees assigned.
+### 26.Get the name(s) of department(s) with no employees assigned.
     var res = departments.GroupJoin(employees,
     d => d.Id,
     e => e.DepartmentId,
@@ -183,11 +183,11 @@ public class Department
     })
     .Where(x => x.EmployeeCount == 0)
     .ToList();
-### Get top 3 highest-paid employees.
+### 27.Get top 3 highest-paid employees.
     var res = employees.OrderByDescending(e => e.Salary)
     .Take(3)
     .ToList();
-### List departments along with the total salary paid to their employees.
+### 28.List departments along with the total salary paid to their employees.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -199,7 +199,7 @@ public class Department
     TotalSalary = x.Sum(e => e.Salary)
     })
     .ToList();
-### Find the employee(s) with the second lowest salary.
+### 29.Find the employee(s) with the second lowest salary.
     var secondLowestSalary = employees
     .Select(e => e.Salary)
     .Distinct()
@@ -209,7 +209,7 @@ public class Department
     var res = employees
     .Where(e => e.Salary == secondLowestSalary)
     .ToList();
-### List departments where average employee age is more than 30.
+### 30.List departments where average employee age is more than 30.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -222,7 +222,7 @@ public class Department
     })
     .Where(g => g.Age > 30)
     .ToList();
-### List employee names grouped by department, where each group includes total salary of that department.
+### 31.List employee names grouped by department, where each group includes total salary of that department.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -235,10 +235,10 @@ public class Department
     TotalSalary = g.Sum(x => x.Salary)
     })
     .ToList();
-### List employees who joined in the last 6 months.
+### 32.List employees who joined in the last 6 months.
     var res = employees.Where(x => x.JoiningDate > DateTime.Now.AddMonths(-6))
     .ToList();
-### Find the department with the highest average salary.
+### 33.Find the department with the highest average salary.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -251,7 +251,7 @@ public class Department
     })
     .OrderByDescending(x => x.AvgSalary)
     .FirstOrDefault();
-### List all employees along with their department name. If department is not assigned, show 'No Department'.
+### 34.List all employees along with their department name. If department is not assigned, show 'No Department'.
     var res = employees.GroupJoin(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -263,7 +263,7 @@ public class Department
     DepartmentName = d != null ? d.DepartmentName : "No Department"
     })
     .ToList();
-### Find the most recent joining employee in each department.
+### 35.Find the most recent joining employee in each department.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -280,16 +280,16 @@ public class Department
     };
     })
     .ToList();
-### Find the employee(s) who joined earliest overall.
+### 36.Find the employee(s) who joined earliest overall.
     var res = employees.OrderBy(x => x.JoiningDate)
     .FirstOrDefault();
-### Find all employees who have the same joining date.
+### 37.Find all employees who have the same joining date.
     var res = employees.GroupBy(x => x.JoiningDate)
     .Where(g => g.Count() > 1)
     .SelectMany(g => g)
     .Select(x => x.Name)
     .ToList();
-### List departments with no employees.
+### 38.List departments with no employees.
     var res = departments.GroupJoin(employees,
     d => d.Id,
     e => e.DepartmentId,
@@ -302,15 +302,15 @@ public class Department
     })
     .Where(x => x.EmployeeName == null)
     .ToList();
-### Find employees whose name contains 'an' (case-insensitive)
+### 39.Find employees whose name contains 'an' (case-insensitive)
     var res = employees.Where(x => x.Name.ToLower().Contains("an")).ToList();
     var res = employees.Where(x => x.Name.Substring(0, 1) == "G").ToList();
-### List top 2 youngest employees in each department.
+### 40.List top 2 youngest employees in each department.
     var res = employees.GroupBy(x => x.DepartmentId)
     .SelectMany(g => g.OrderBy(x => x.Age))
     .Take(2)
     .ToList();
-### Find employees who earn less than average salary of their department.
+### 41.Find employees who earn less than average salary of their department.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -329,7 +329,7 @@ public class Department
      });
        })
        .ToList();
-### List all departments along with the count of employees who joined in the last 1 year.
+### 42.List all departments along with the count of employees who joined in the last 1 year.
     var res = employees.Join(departments,
     e => e.DepartmentId,
     d => d.Id,
@@ -342,7 +342,7 @@ public class Department
     JoinningCount = g.Count()
     })
     .ToList();
-### Find employees whose department has more than 2 employees.
+### 43.Find employees whose department has more than 2 employees.
     var res = employees
        .GroupBy(e => e.DepartmentId)
        .Where(g => g.Count() > 2)
@@ -356,7 +356,7 @@ public class Department
        d.DepartmentName
        })
        .ToList();
-### Find the department which has the maximum number of employees.
+### 45.Find the department which has the maximum number of employees.
     var res = employees.GroupBy(e => e.DepartmentId)
     .OrderByDescending(g => g.Count())
     .Take(1)
@@ -369,7 +369,7 @@ public class Department
     EmployeeCount = e.Count()
     })
     .FirstOrDefault();
-### Find departments where average employee age is less than 30.
+### 46.Find departments where average employee age is less than 30.
     var res = employees
     .Join(departments,
     e => e.DepartmentId,
@@ -383,11 +383,11 @@ public class Department
     AvgAge = g.Average(x => x.Age)
     })
     .ToList();
-### Find all employees whose name is repeated (i.e., duplicate names)
+### 47.Find all employees whose name is repeated (i.e., duplicate names)
     employees.GroupBy(x => x.Name)
                 .Where(g => g.Count() > 1)
                 .ToList();
-### Find the employee count department-wise and gender-wise.
+### 48.Find the employee count department-wise and gender-wise.
     employees.GroupBy(x => new { x.DepartmentId, x.Gender })
                 .Join(departments,
                 x => x.Key.DepartmentId,
@@ -399,12 +399,12 @@ public class Department
                     EmployeeCount = e.Count()
                 })
                 .ToList();
-### Find the employee(s) who joined on the same date (i.e., duplicate joining dates)
+### 49.Find the employee(s) who joined on the same date (i.e., duplicate joining dates)
     employees.GroupBy(x => x.JoiningDate)
                 .Where(g => g.Count() > 1)
                 .SelectMany(g => g)
                 .ToList();
-### Find the department(s) that have more than 2 employees.
+### 50.Find the department(s) that have more than 2 employees.
     employees.GroupBy(x => x.DepartmentId)
                 .Where(e => e.Count() > 2)
                 .Join(departments,
