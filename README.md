@@ -383,3 +383,35 @@ public class Department
     AvgAge = g.Average(x => x.Age)
     })
     .ToList();
+### Find all employees whose name is repeated (i.e., duplicate names)
+    employees.GroupBy(x => x.Name)
+                .Where(g => g.Count() > 1)
+                .ToList();
+### Find the employee count department-wise and gender-wise.
+    employees.GroupBy(x => new { x.DepartmentId, x.Gender })
+                .Join(departments,
+                x => x.Key.DepartmentId,
+                d => d.Id,
+                (e, d) => new
+                {
+                    DepartmentName = d.DepartmentName,
+                    Gender = e.Key.Gender,
+                    EmployeeCount = e.Count()
+                })
+                .ToList();
+### Find the employee(s) who joined on the same date (i.e., duplicate joining dates)
+    employees.GroupBy(x => x.JoiningDate)
+                .Where(g => g.Count() > 1)
+                .SelectMany(g => g)
+                .ToList();
+### Find the department(s) that have more than 2 employees.
+    employees.GroupBy(x => x.DepartmentId)
+                .Where(e => e.Count() > 2)
+                .Join(departments,
+                e => e.Key,
+                d => d.Id,
+                (e, d) => new
+                {
+                    DepartmentName = d.DepartmentName
+                })
+                .ToList();
