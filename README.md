@@ -59,7 +59,7 @@ public class Department
     .ToList();
 ### 9.Get the name(s) of the youngest employee(s).
     var res = employees.Where(x => x.Age == employees.Min(a => a.Age)).ToList();
-### 1.Group employees by gender and get the average salary for each gender.
+### 10.Group employees by gender and get the average salary for each gender.
     var res = employees.GroupBy(x => x.Gender).
     Select(x => new
     {
